@@ -19,24 +19,25 @@ static const char *TAG = "app_main";
 void app_main(void) {
     wifi_init();  // Iniciar WiFi
     mqtt_start(); // Iniciar MQTT
+    publicacionTask(); // Tarea Para las Publicaciones de estados y sensores
     
     //LOOP PARA PUBLICAR EL ESTADO DE LOS DISPOSITIVOS
-    while (1) {
-        // ESP_LOGI(TAG, "Publicando mensaje...");
-        // ESP_LOGI(TAG, "Valor de act_1_status: %s", act_1_status ? "true" : "false");
-        mqtt_publish(TOPIC_HP_IL_1_STATUS, (act_1_status ? "true" : "false"));
-        vTaskDelay(pdMS_TO_TICKS(1000));
+    // while (1) {
+    //     // ESP_LOGI(TAG, "Publicando mensaje...");
+    //     // ESP_LOGI(TAG, "Valor de act_1_status: %s", act_1_status ? "true" : "false");
+    //     mqtt_publish(TOPIC_HP_IL_1_STATUS, (act_1_status ? "true" : "false"));
+    //     vTaskDelay(pdMS_TO_TICKS(1000));
 
-        mqtt_publish(TOPIC_HP_IL_2_STATUS, (act_2_status ? "true" : "false"));
-        vTaskDelay(pdMS_TO_TICKS(1000));
+    //     mqtt_publish(TOPIC_HP_IL_2_STATUS, (act_2_status ? "true" : "false"));
+    //     vTaskDelay(pdMS_TO_TICKS(1000));
 
-        mqtt_publish(TOPIC_HP_IL_3_STATUS, (act_3_status ? "true" : "false"));
-        vTaskDelay(pdMS_TO_TICKS(1000));
+    //     mqtt_publish(TOPIC_HP_IL_3_STATUS, (act_3_status ? "true" : "false"));
+    //     vTaskDelay(pdMS_TO_TICKS(1000));
 
-        mqtt_publish(TOPIC_HP_IL_4_STATUS, (act_4_status ? "true" : "false"));
-        vTaskDelay(pdMS_TO_TICKS(1000));
+    //     mqtt_publish(TOPIC_HP_IL_4_STATUS, (act_4_status ? "true" : "false"));
+    //     vTaskDelay(pdMS_TO_TICKS(1000));
 
-    }
+    // }
 
 }
 

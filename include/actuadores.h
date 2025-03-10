@@ -12,6 +12,7 @@ typedef enum {
     CMD_ACT_2,
     CMD_ACT_3,
     CMD_ACT_4,
+    CMD_ACT_5,
     CMD_UNKNOWN
 } CommandType;
 

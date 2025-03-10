@@ -8,6 +8,7 @@
 
 void mqtt_start(void);
 void mqtt_publish(const char *topic, const char *message);
+void publicacionTask(void);
 
 
 #endif // MQTT_H

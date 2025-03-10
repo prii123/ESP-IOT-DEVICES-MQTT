@@ -44,9 +44,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
             ESP_LOGI(TAG, "Desconectado de MQTT.");
             break;
         case MQTT_EVENT_DATA:
-            ESP_LOGI(TAG, "Mensaje recibido en %.*s: %.*s",
-                event->topic_len, event->topic,
-                event->data_len, event->data);
+            // ESP_LOGI(TAG, "Mensaje recibido en %.*s: %.*s",
+            //     event->topic_len, event->topic,
+            //     event->data_len, event->data);
             // Reservar memoria dinámicamente para topic y data
             char *topic = malloc(event->topic_len + 1);
             char *data = malloc(event->data_len + 1);
@@ -97,5 +97,36 @@ void mqtt_publish(const char *topic, const char *message) {
     esp_mqtt_client_publish(client, topic, message, 0, 0, 0);
 }
 
+/**
+ * publicacion a los topics de estados  sensores 
+ * se agregan a tareas 
+ */
+void publicar_rapido(void *pvParameters) {
+    while (1) {
+        mqtt_publish(TOPIC_HP_IL_1_STATUS, (act_1_status ? "true" : "false"));
+        vTaskDelay(pdMS_TO_TICKS(3000));
 
+        mqtt_publish(TOPIC_HP_IL_2_STATUS, (act_2_status ? "true" : "false"));
+        vTaskDelay(pdMS_TO_TICKS(3000));
+
+        mqtt_publish(TOPIC_HP_IL_3_STATUS, (act_3_status ? "true" : "false"));
+        vTaskDelay(pdMS_TO_TICKS(3000));
+
+        mqtt_publish(TOPIC_HP_IL_4_STATUS, (act_4_status ? "true" : "false"));
+        vTaskDelay(pdMS_TO_TICKS(3000));
+
+    }
+}
+
+void publicar_lento(void *pvParameters) {
+    while (1) {
+        mqtt_publish("topic/lento", "Dato cada 5s");
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Espera 5 segundos
+    }
+}
+
+void publicacionTask(void) {
+    xTaskCreate(&publicar_rapido, "Publicar_Rapido", 4096, NULL, 5, NULL);
+    xTaskCreate(&publicar_lento, "Publicar_Lento", 4096, NULL, 5, NULL);
+}
 
